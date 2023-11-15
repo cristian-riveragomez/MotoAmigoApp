@@ -1,0 +1,7 @@
+<?xml version='1.0' encoding='utf-8'?>
+<resources>
+    <string name="app_name">motoAmigoApp</string>
+    <string name="title_activity_main">motoAmigoApp</string>
+    <string name="package_name">com.motoAmigo.motoAmigoApp</string>
+    <string name="custom_url_scheme">com.motoAmigo.motoAmigoApp</string>
+</resources>

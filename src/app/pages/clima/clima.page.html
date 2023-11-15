@@ -1,0 +1,29 @@
+<app-header></app-header>
+
+<ion-content class="ion-padding">  
+
+    <ion-refresher slot="fixed" (ionRefresh)="doRefresh($event)">
+        <ion-refresher-content
+            pullingIcon="arrow-dropdown"
+            pullingText="Pulse para actualizar"
+            refreshingSpinner="circles"
+            refreshingText="Actualizando...">
+        </ion-refresher-content>
+    </ion-refresher>
+
+    <div class="center-container">
+        <div class="col-md-12 ion-text-right">
+            <h1>{{fechaString}}</h1>
+        </div>
+        <div class="col-md-12 ion-text-center">            
+            <img class="imgIcono" height="330" width="330" [src]="pathIconoActual">
+        </div>
+ 
+        <div class="col-md-6 ion-text-center separacionComponentes">            
+            <h1>Temperatura {{datosActualues.temperatura}}°</h1>
+            <h1>{{datosActualues.descripcionClima}} </h1>
+            <h3>Sensacion Termica {{datosActualues.sensacionTermica}}°</h3> 
+            <h3>Humedad {{datosActualues.humedad}}%</h3>            
+        </div>          
+    </div>        
+</ion-content>

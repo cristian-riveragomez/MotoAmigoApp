@@ -1,0 +1,181 @@
+<app-header></app-header>
+
+<ion-content class="ion-padding-horizontal">
+  <h1 class="titulo">Mi Cuenta</h1>    
+  <form
+    autocomplete="off"
+    (ngSubmit)="actualizarUsuario(formularioValue)"
+    #formularioValue="ngForm"
+    class="animated fadeIn"
+  >
+    <div>
+      <div class="form-group row">
+        <ion-label class="col-3 col-form-label">Nombre</ion-label>
+        <div class="col-9">
+          <ion-input
+            class="form-control"
+            type="text"
+            name="nombre"
+            [(ngModel)] = "usuario.nombre"
+            #nombre = "ngModel"
+            required
+            maxlength="30"
+          />
+          <small *ngIf="nombre.invalid && nombre.touched" class="form-text text-danger"> El campo Nombre es obligatorio</small>
+        </div>
+      </div>
+
+      <div class="form-group row">
+        <ion-label class="col-3 col-form-label">Apellido</ion-label>
+        <div class="col-9">
+          <ion-input
+            class="form-control"
+            type="text"
+            name="apellido"
+            [(ngModel)]="usuario.apellido"
+            #apellido = "ngModel"
+            required             
+            maxlength="50"
+          />
+          <small *ngIf="apellido.invalid && apellido.touched" class="form-text text-danger"> El campo Apellido es obligatorio</small>
+        </div>
+      </div>
+
+      <div class="form-group row">
+        <ion-label class="col-3 col-form-label">Usuario</ion-label>
+        <div class="col-9">
+          <ion-input
+            class="form-control"
+            type="text"
+            name="nombreUsuario"
+            [(ngModel)]="usuario.nombreUsuario"
+            #nombreUsuario = "ngModel"
+            required               
+            maxlength="20"
+            disabled
+          />
+          <small *ngIf="nombreUsuario.invalid && nombreUsuario.touched" class="form-text text-danger"> El campo Usuario es obligatorio</small>
+        </div>
+      </div>
+
+      <div class="form-group row">
+        <ion-label class="col-4 col-form-label">Contraseña</ion-label>
+        <div class="col-8">
+          <ion-input
+            class="form-control"           
+            name="contrasena"     
+            [type]="inputType"       
+            required
+            maxlength="20"
+            [(ngModel)]="usuario.contrasena"
+            #contrasena = "ngModel"
+          />
+          <small *ngIf="contrasena.invalid && contrasena.touched" class="form-text text-danger"> El campo Constraseña es obligatorio</small>
+        </div>
+        <div class="ion-text-center">
+          <ion-button  size="small" color="light" type="button" (click)="togglePasswordVisibility()">Mostrar/ocultar contraseña</ion-button>
+        </div>  
+      </div>
+    </div>
+
+    <div class="form-group row">
+      <ion-label class="col-3 col-form-label">Email</ion-label>
+      <div class="col-9">
+        <ion-input
+          class="form-control"
+          type="email"  
+          name="email" 
+          maxlength="50"     
+          [(ngModel)]="usuario.email"
+          pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,3}$"
+          #email = "ngModel"
+          required 
+          disabled
+        />
+        <small *ngIf="email.invalid && email.touched" class="form-text text-danger"> El campo Email es obligatorio</small>
+      </div>
+    </div>
+
+    <div class="ion-padding ion-text-center">
+      <ion-button  color="success" expand="block"  type="submit" class="ion-no-margin">
+        <ion-text style="color:white">ACTUALIZAR <ion-icon name="swap-horizontal-outline"></ion-icon></ion-text>
+      </ion-button>
+    </div>        
+  </form>
+
+  <h2 class="subtitulo">Mis productos</h2>
+  <hr class="white-hr">
+  
+  <div class="col-12 ion-text-right">
+    <ion-button  [routerLink]="['/tab/crear-producto/nuevo']" class="titulo" size="small" color="primary">Crear Producto 
+      <ion-icon name="add-circle-outline"></ion-icon>        
+    </ion-button>
+  </div>
+  
+  <div *ngIf="productos.length === 0" class="alert alert-warning text-center mt-3">
+    <h4 class="alert-heading">No hay registros </h4>
+    <p><i class="fa fa-exclamation fa-2x"></i></p>
+  </div>
+
+  <table class="table" *ngIf="productos.length > 0" >
+    <thead class="thead-dark">
+      <tr>
+        <th scope="col">#</th>
+        <th scope="col">Nom</th>
+        <th scope="col">T.Prod</th>
+        <th scope="col">Precio</th>      
+        <th scope="col">Btn</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let producto of productos; let i = index">
+        <th scope="row">{{ i + 1 }}</th>
+        <td class="nombre-column">{{ producto.nombre }}</td>
+        <td>{{ producto.tipoProducto }}</td>
+        <td>${{ producto.precio }}</td>
+        <td>
+          <ion-button size="small" [routerLink]="['/tab/crear-producto', producto.idProducto]">
+            <ion-icon name="pencil-outline"></ion-icon>
+          </ion-button>
+          <ion-button size="small" color="danger" (click)="borrarProducto( producto, i )">
+            <ion-icon name="trash-outline"></ion-icon>
+          </ion-button>
+        </td>
+      </tr>    
+    </tbody>
+  </table>
+
+  <h2 class="subTitulos">Mis destacados</h2>
+  <hr class="white-hr">
+
+  <div *ngIf="misProductosDestacados.length === 0" class="alert alert-warning text-center mt-3">
+    <h4 class="alert-heading">No hay registros </h4>
+    <p><i class="fa fa-exclamation fa-2x"></i></p>
+  </div>
+
+  <table class="table animated fadeIn faster"  *ngIf="misProductosDestacados.length > 0">
+    <thead class="thead-dark">
+      <tr>
+        <th scope="col">#</th>
+        <th scope="col">Nom</th>
+        <th scope="col">T.Prod</th>
+        <th scope="col">Precio</th>
+        <th scope="col">Btn</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let productoDestacado of misProductosDestacados; let i = index">
+        <th scope="row">{{ i + 1 }}</th>
+        <td class="nombre-column">{{ productoDestacado.nombre }}</td>
+        <td>{{ productoDestacado.tipoProducto }}</td>
+        <td>${{ productoDestacado.precio }}</td>
+        <td>
+          <ion-button size="small" [routerLink]="['/tab/producto/', productoDestacado.idProducto, 'cuenta']">
+            <ion-icon name="eye-outline"></ion-icon>
+          </ion-button>         
+        </td>
+      </tr>    
+    </tbody>
+  </table>
+      
+</ion-content>

@@ -1,0 +1,56 @@
+<app-header></app-header>
+
+<ion-content class="ion-padding-horizontal">
+
+  <div class="col-12 ion-text-right ion-padding-bottom ion-padding-top">
+    <ion-button  (click)="redireccionarPantalla()" class="btn-primary">
+            <ion-icon name="arrow-back-circle-sharp"></ion-icon>
+            Regresar
+    </ion-button>
+  </div>
+
+  <img [src]="imagenData">
+  <h1 class="card-title ion-text-center">{{producto.nombre}}</h1>
+  <h2 class="card-text ion-text-center">${{producto.precio}}</h2>
+
+  <div class="ion-text-center">      
+      <ion-button *ngIf="producto.idUsuario != usuarioIdLogin" (click)="contactarProducto()" color="primary">
+        Contactar  
+        <ion-icon name="mail-sharp"></ion-icon>
+      </ion-button>                  
+      
+      <ion-button *ngIf="producto.idUsuario != usuarioIdLogin && parametroTipoProducto == 'marketPlace' && !esProductoDenunciado " 
+                  (click)="denunciarProducto( producto.idProducto )" color="danger"> Denunciar  
+          <ion-icon name="alert-circle-sharp"></ion-icon>
+      </ion-button>
+
+      <input *ngIf="producto.idUsuario != usuarioIdLogin" (change)="destacarProducto()" id="heart" [(ngModel)]="productoDestacado" type="checkbox"/>
+      <label  *ngIf="producto.idUsuario != usuarioIdLogin" for="heart">❤</label>                    
+      
+    </div>
+  
+  <ion-card>   
+      <ion-card-content style="background: darkgray;">
+          <h2 class="card-footer" style="color:black">
+              TipoProducto:   {{ tipoProducto }}
+          </h2>
+          <h2 class="card-footer" style="color:black">
+              Marca:  {{ producto.marca }}
+          </h2>
+          <h2 class="card-footer" style="color:black">
+              Modelo:  {{ producto.modelo }}
+          </h2>
+      </ion-card-content>
+  </ion-card> 
+
+  <ion-card>   
+    <ion-card-content>
+        <ion-card-title>
+          <h2 style="color:white">Detalles:</h2>
+        </ion-card-title>
+        <br>
+        <h3 class="ion-text-center" style="color:white">{{producto.detalle}}</h3>
+    </ion-card-content>
+  </ion-card>
+
+</ion-content>

@@ -1,0 +1,116 @@
+<ion-header>
+  <ion-toolbar>
+    <div class="ion-text-center icono">          
+      <img src="../../../assets/icon/motoAmigoIcon.png" width="40" height="40">
+    </div>  
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+    <h1 class="ion-padding titulo">Crear Nueva Cuenta</h1>
+      <form class="ion-padding-horizontal"  autocomplete="off"
+            (ngSubmit)="guardarUsuario(formularioValue)"
+            #formularioValue="ngForm"
+      >
+        <div>
+          <div class="form-group row">
+            <label class="col-3 col-form-label">Nombre</label>
+            <div class="col-9">
+              <input
+                class="form-control"
+                type="text"
+                name="nombre"
+                required
+                maxlength="20"
+                [(ngModel)]="usuario.nombre"
+                [class.is-invalid] = "nombre.invalid && nombre.touched"  
+                #nombre = "ngModel"
+              />
+              <small *ngIf="nombre.invalid && nombre.touched" class="form-text text-danger"> El campo Nombre es obligatorio</small>
+            </div>
+          </div>
+    
+          <div class="form-group row">
+            <label class="col-3 col-form-label">Apellido</label>
+            <div class="col-9">
+              <input
+                class="form-control"
+                type="text"
+                name="apellido"
+                required 
+                maxlength="30"
+                [(ngModel)]="usuario.apellido"
+                [class.is-invalid] = "apellido.invalid && apellido.touched"  
+                #apellido = "ngModel"
+              />
+              <small *ngIf="apellido.invalid && apellido.touched" class="form-text text-danger"> El campo Apellido es obligatorio</small>
+            </div>
+          </div>
+    
+          <div class="form-group row ">
+            <label class="col-3 col-form-label">Usuario</label>
+            <div class="col-9">
+              <input
+                class="form-control"
+                type="text"
+                name="nombreUsuario"
+                required
+                maxlength="20"
+                [(ngModel)]="usuario.nombreUsuario"
+                [class.is-invalid] = "nombreUsuario.invalid && nombreUsuario.touched"  
+                #nombreUsuario = "ngModel"
+              />
+              <small *ngIf="nombreUsuario.invalid && nombreUsuario.touched" class="form-text text-danger"> El campo Usuario es obligatorio</small>
+            </div>
+          </div>
+    
+          <div class="form-group row">
+            <ion-label class="col-4 col-form-label">Contraseña</ion-label>
+            <div class="col-8">
+              <ion-input
+                class="form-control"
+                type="text"
+                name="contrasena"
+                required
+                maxlength="20"
+                [(ngModel)]="usuario.contrasena"
+                [class.is-invalid] = "contrasena.invalid && contrasena.touched"  
+                #contrasena = "ngModel"
+              />
+              <small *ngIf="contrasena.invalid && contrasena.touched" class="form-text text-danger"> El campo Constraseña es obligatorio</small>
+            </div>
+          </div>
+        </div>
+    
+        <div class="form-group row">
+          <ion-label class="col-3 col-form-label">Email</ion-label>
+          <div class="col-9">
+            <ion-input
+              class="form-control"
+              type="email"             
+              name="email"  
+              maxlength="50"     
+              pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,3}$"
+              required 
+              [(ngModel)]="usuario.email" 
+              [class.is-invalid] = "email.invalid && email.touched"  
+              #email = "ngModel"
+            />
+            <small *ngIf="email.invalid && email.touched" class="form-text text-danger"> El campo Email es obligatorio</small>
+          </div>
+        </div>
+    
+        <div class="col ion-text-center">
+          <p style="color:white">
+            Ya tiene una cuenta? <a [routerLink]="['/login']">/ Ingresar cuenta</a>
+          </p>
+        </div>
+    
+        <div class="ion-padding ion-text-center">
+          <ion-button  color="success" expand="block" size="large" type="submit" class="ion-no-margin">
+            <ion-text style="color:white">CREAR <ion-icon name="arrow-forward-circle-outline"></ion-icon></ion-text>
+          </ion-button>
+        </div>
+        
+      </form>      
+</ion-content>

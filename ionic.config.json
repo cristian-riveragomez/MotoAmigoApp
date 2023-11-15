@@ -1,5 +1,8 @@
 {
-  "name": "tienda",
-  "integrations": {},
+  "name": "MotoAmigoApp",
+  "integrations": {
+    "cordova": {},
+    "capacitor": {}
+  },
   "type": "angular"
 }

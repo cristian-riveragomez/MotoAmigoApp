@@ -1,0 +1,201 @@
+<app-header></app-header>
+
+<ion-content class="ion-padding">    
+  <div class="col-12 ion-text-right">
+    <button [routerLink]="['/tab/mi-cuenta']" class="btn btn-primary">
+      <ion-icon name="arrow-back-circle-sharp"></ion-icon>
+        Regresar
+      </button>
+  </div>
+
+  <h1 class="titulo">Producto</h1>
+  <hr  class="white-hr"/>
+  <form
+    autocomplete="off"
+    (ngSubmit)="guardarProducto(formularioValue)"
+    #formularioValue="ngForm"
+  >
+    <div class="form-group">     
+      <div class="form-group row">
+        <ion-label class="col-3 col-form-label">Nombre</ion-label>
+        <div class="col-9">
+          <ion-input
+            class="form-control"
+            type="text"
+            name="nombre"
+            maxlength="50"
+            required     
+            [(ngModel)] = "producto.nombre"
+            #nombre ="ngModel"
+          />
+          <small  *ngIf="nombre.invalid && nombre.touched" class="form-text text-danger">
+            El campo Nombre es obligatorio
+          </small>
+        </div>
+      </div>
+      
+      <div class="form-group row">
+        <ion-label class="col-form-label col-3">Detalle</ion-label>
+        <div class="col-9">
+          <textarea
+            class="form-control"
+            type="text"
+            name="detalle"
+            [(ngModel)]="producto.detalle"
+            #detalle="ngModel"
+            >
+          </textarea>
+        </div>
+      </div>
+      
+      <div class="form-group row">
+        <ion-label class="col-form-label col-3">Precio</ion-label>
+        <div class="col-9">
+          <input
+            class="form-control"
+            type="text"
+            name="precio"
+            required                
+            [(ngModel)]="producto.precio"
+            #precio="ngModel"
+            maxlength="10"
+            pattern="[0-9]+"
+          />
+          <small *ngIf="precio.invalid && precio.touched" class="form-text text-danger">
+            El campo Precio es obligatorio
+          </small>
+        </div>
+      </div>
+      
+      <div class="form-group row">
+        <ion-label class="col-form-label col-3">Marca</ion-label>
+        <div class="col-9">
+          <ion-input
+            class="form-control"
+            type="text"
+            name="marca"
+            required                 
+            maxlength="30"
+            [(ngModel)]="producto.marca"
+            #marca="ngModel"
+            maxlength="30"
+          />
+          <small *ngIf="marca.invalid && precio.touched" class="form-text text-danger">
+            El campo Marca es obligatorio
+          </small>
+        </div>
+      </div>
+      
+      <div class="form-group row">
+        <ion-label class="col-form-label col-3">Modelo</ion-label>
+        <div class="col-9">
+          <ion-input
+            class="form-control"
+            type="text"
+            name="modelo"
+            required               
+            maxlength="30"
+            [(ngModel)]="producto.modelo"            
+            #modelo="ngModel"
+          />
+          <small *ngIf="modelo.invalid && precio.touched" class="form-text text-danger">
+            El campo Modelo es obligatorio
+          </small>
+        </div>
+      </div>
+
+      <div  *ngIf="productoId == 'nuevo'" class="ion-padding-vertical">
+        <h3>Tipo producto</h3>    
+        <ion-list>
+          <ion-radio-group>
+            <ion-item>
+              <ion-label>Accesorio</ion-label>
+              <ion-radio (click)="validacionRepuesto(false)" slot="start">
+              </ion-radio>
+            </ion-item>
+       
+            <ion-item>
+              <ion-label>Repuesto</ion-label>
+              <ion-radio (click)="validacionRepuesto(true)" slot="start">
+              </ion-radio>
+            </ion-item>  
+          </ion-radio-group>
+        </ion-list>       
+      </div>
+    
+      
+      <div  class="alert alert-warning mt-2" *ngIf="productoId == 'nuevo'"  role="alert">
+          INFO: Cada producto puede ser denunciado hasta 3 veces por distintos usuarios para luego ser validado por el administrador.
+          <br> En caso de ser rechazado se eliminará y se informará por mail. En caso contrario se volverá a mostrar para su interacción.
+      </div>      
+      
+      <div *ngIf="productoId != 'nuevo'"  class="ion-text-center ion-padding-top">
+        <img [src]="imagenData" width="80%" height="80%">         
+      </div>
+
+      <div *ngIf="productoId == 'nuevo'" class="col-12">
+        <h3>Inserte la imagen del producto</h3>
+          
+        <div *ngIf="previsualizacion" class="mt-3 text-center">
+          <img [src]="previsualizacion" width="70%" height="70%">
+        </div>
+          
+        <diV class="ion-padding-bottom">
+          <input (change) = "capturarArchivo($event)"  class="form-control" type="file" required>
+        </diV>                       
+      </div> 
+
+      <div *ngIf="esRepuestoAValidar && productoId == 'nuevo'"  class="alert alert-danger ion-padding-top" role="alert">
+        IMPORTANTE: En caso de generar un repuesto que sea uno de los siguientes. 
+        <br>Debe adjuntarse una imagen del repuesto con el grabado de la patente.
+        <br>Luego de su creación sera evaluado por el administrador para aprobarlo o rechazarlo. Se informará por mail cual fue la accion a tomada.
+      </div>
+
+      <div class="form-group row" *ngIf="esRepuestoAValidar && productoId == 'nuevo'">        
+        <ion-label class="col-6 col-form-label">Seleccione el tipo de repuesto  </ion-label>
+        <select class="col-5" 
+          [(ngModel)]="selectedOption"
+          name="tipoRepuesto"
+          >          
+          <option *ngFor="let option of options" [value]="option">{{ option }}</option>
+        </select>        
+      </div>
+      
+      <div class="col-10 mt-5" *ngIf="selectedOption != 'Otro' && selectedOption != 'vacio' ">
+          <h5 class="col-12">Inserte la imagen del repuesto donde fue grabado</h5>            
+          
+          <div *ngIf="previsualizacionRepuestoNuevo" class="mt-2 text-center">
+              <img [src]="previsualizacionRepuestoNuevo" width="35%" height="35%">
+            </div>
+          
+          <diV class="mt-2">
+            <input (change) = "capturarRepuesto($event)"  class="form-control" type="file">
+          </diV>   
+        </div>   
+
+      <div class="col-10 mt-5" *ngIf="productoId != 'nuevo' && esRepuestoRechazado">
+          <h5 class="col-12">Inserte la imagen del repuesto donde fue grabado</h5>            
+          
+          <div *ngIf="previsualizacionRepuestoNuevo" class="mt-2 text-center">
+              <img [src]="previsualizacionRepuestoNuevo" width="35%" height="35%">
+            </div>
+          
+          <diV class="mt-2">
+            <input (change) = "capturarRepuesto($event)"  class="form-control" type="file">
+          </diV>   
+      </div>
+
+      <div class="ion-text-center ion-padding-top">
+        <ion-button color="success" *ngIf="productoId == 'nuevo'" size="large" type="submit">
+            <ion-text style="color:white">GUARDAR<ion-icon name="arrow-forward-circle-outline"></ion-icon></ion-text>
+        </ion-button>
+
+        <ion-button color="success" *ngIf="productoId != 'nuevo'" size="large" type="submit">
+          <ion-text style="color:white">ACTUALIZAR<ion-icon name="arrow-forward-circle-outline"></ion-icon></ion-text>
+        </ion-button>
+      </div>      
+
+    </div>
+  </form>
+
+</ion-content>

@@ -1,0 +1,40 @@
+<ion-header>
+    <ion-toolbar>
+        <ion-buttons slot="start" (click)="cerrarModal()">
+          <ion-back-button defaultHref="/tab/market-place"></ion-back-button>
+        </ion-buttons>
+      <ion-title>Filtrar Productos</ion-title>
+    </ion-toolbar>
+  </ion-header>
+
+  <ion-content class="ion-padding">        
+    <div class="ion-padding-vertical">
+      <h3>Tipo producto</h3>    
+      <ion-list>
+        <ion-item>
+          <ion-label>Accesorio</ion-label>
+          <ion-checkbox [(ngModel)]="accesorio"></ion-checkbox>
+        </ion-item>
+        <ion-item>
+          <ion-label>Repuesto</ion-label>
+          <ion-checkbox [(ngModel)]="repuesto"></ion-checkbox>
+        </ion-item>
+      </ion-list>
+    </div>
+
+    <div class="ion-padding-vertical">
+      <h3>Precio</h3>
+      <ion-label >Precio mínimo:</ion-label>
+      <input type="text" maxlength="10" class="form-control" [(ngModel)]="precioMinimoInput">   
+      
+      <ion-label>Precio máximo:</ion-label>
+      <input type="text" maxlength="10" class="form-control" [(ngModel)]="precioMaximoInput">
+    </div>
+    
+    <div class="ion-padding ion-text-center">
+      <ion-button (click)="aplicarFiltros()" class="ion-text-center">
+        Aplicar filtros
+      </ion-button>         
+    </div>
+  </ion-content>
+  

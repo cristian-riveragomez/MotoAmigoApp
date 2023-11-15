@@ -1,0 +1,88 @@
+<ion-header>
+</ion-header>
+
+<ion-content>
+    <section class="vh-100">
+        <div class="container py-5 h-100">
+          <div class="row d-flex justify-content-center align-items-center h-100">
+            <div class="col-12 col-md-8 col-lg-6 col-xl-5">
+              <div class="card shadow-2-strong" style="border-radius: 1rem;">
+                <div class="card-body p-4 text-center">
+                  <form (ngSubmit)="login(form)" #form="ngForm">
+                    
+                    <div class="text-center mb-3">
+                        <img src="../../assets/icon/motoAmigoV2.png" width="180px" height="180px" alt="Imagen">
+                      <div>
+                        <h3 style="color:black">MotoAmigo</h3>
+                      </div>                
+                    </div>              
+                    
+                    <div class="form-outline mb-4">
+                      <small *ngIf="form.submitted && form.controls['email'].errors" class="form-text text-danger">
+                        El campo Email es obligatorio
+                      </small>
+                      <ion-input
+                        type="text"
+                        name="email"                      
+                        class="form-control form-control"
+                        required
+                        [(ngModel)]="usuarioLogin.emailUsuario"
+                        #email="ngModel"
+                      />
+                      <ion-label class="form-label" for="typeEmailX-2" style="color:black">
+                        Email/Usuario
+                      </ion-label>
+                    </div>
+      
+                    <div class="form-outline mb-4">
+                      <small *ngIf="form.submitted && form.controls['contrasena'].errors" class="form-text text-danger">
+                        El campo Constraseña es obligatorio
+                      </small>
+                      <ion-input                       
+                        name="contrasena"
+                        class="form-control form-control-lg"
+                        required     
+                        [(ngModel)]="usuarioLogin.contrasena"
+                        [type]="inputType"  
+                        #contrasena="ngModel"                 
+                      />               
+                      <ion-label
+                        class="form-label"
+                        for="typePasswordX-2"
+                        style="color:black"
+                        >Contraseña</ion-label
+                      > 
+                      <div>
+                        <ion-button color="light" type="button" (click)="togglePasswordVisibility()">
+                          Mostrar/ocultar contraseña
+                        </ion-button>
+                      </div>                                               
+                    </div>
+                    
+                    <ion-button  color="primary"  size="large"  expand="block" type="submit">
+                      Ingresar
+                    </ion-button>
+      
+                    <hr class="my-4" />
+      
+                    <div class="col">
+                      <p style="color:black">
+                        No tiene una cuenta? 
+                        <a [routerLink]="['/crear-usuario']">
+                          Crear cuenta
+                        </a>
+                      </p>
+                    </div>
+      
+                    <ion-button color="tertiary">
+                        <ion-icon name="logo-facebook"></ion-icon> Ingresar con facebook
+                    </ion-button>
+                  </form>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+      
+</ion-content>
