@@ -6,6 +6,7 @@ import { MetodosAuxiliaresService } from '../../../services/metodosAuxiliares.se
 import { ActivatedRoute } from '@angular/router';
 
 
+
 @Component({
   selector: 'app-clima',
   templateUrl: './clima.page.html',
@@ -22,7 +23,7 @@ export class ClimaPage implements OnInit {
 
 
   constructor(private connectionS: ConnectionService, private loadingService: LoadingService, private toastController: ToastController
-              , private metodosAuxiliaresS: MetodosAuxiliaresService, private route: ActivatedRoute) 
+              ,private metodosAuxiliaresS: MetodosAuxiliaresService, private route: ActivatedRoute)
   {        
   }
 
@@ -34,16 +35,19 @@ export class ClimaPage implements OnInit {
     });    
   }
 
-  async obtenerUbicacionYMostrarDatos() {
+  async obtenerUbicacionYMostrarDatos() {    
+      
     const loading = await this.loadingService.crearCarga();
     await loading.present();
 
     try 
-    {
-      navigator.geolocation.getCurrentPosition(async (position) => {
+    {        
+
+      //obtener por navegador
+      navigator.geolocation.getCurrentPosition((position) => {
         this.latitud = position.coords.latitude.toString();
         this.longitud = position.coords.longitude.toString();
-        await this.mostrarDatosActuales(this.latitud, this.longitud);
+        this.mostrarDatosActuales(this.latitud, this.longitud);
         loading.dismiss(); 
       });
     } 

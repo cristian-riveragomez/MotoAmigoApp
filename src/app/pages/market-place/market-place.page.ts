@@ -56,13 +56,7 @@ export class MarketPlacePage  {
 
   generarListaImagenesProductos()
   {
-    for (let index = 0; index < this.productos.length; index++) {
-        
-      // this.connectionS.getImagenProductoPorId(Number(this.productos[index].idProducto), 'Producto').subscribe((responseImage:any) =>{
-        
-      //   this.productos[index].imagenContenido = this.convertirBlobAURL(responseImage); 
-      // });
-
+    for (let index = 0; index < this.productos.length; index++) {        
       this.connectionS.getImagenProductoPorId(Number(this.productos[index].idProducto), 'Producto')
       .then(resultado => {
         this.productos[index].imagenContenido = this.convertirBlobAURL(resultado); 
