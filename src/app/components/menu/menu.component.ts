@@ -19,4 +19,8 @@ export class MenuComponent  implements OnInit {
     this.navCtrl.navigateRoot('/login');
   }
 
+  realizarLlamada() {
+    window.open('tel:107', '_system');
+  }
+
 }

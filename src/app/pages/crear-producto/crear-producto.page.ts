@@ -6,6 +6,7 @@ import { ActivatedRoute } from '@angular/router';
 import { NavController } from '@ionic/angular';
 import { MetodosAuxiliaresService } from '../../../services/metodosAuxiliares.service';
 import { AuthService } from '../../../services/auth.service';
+import { LoadingService } from '../../../services/loading.service';
 
 @Component({
   selector: 'app-crear-producto',
@@ -28,16 +29,15 @@ export class CrearProductoPage{
   radioGruopValue!: boolean;
   
   constructor(private sanitizer: DomSanitizer, private connectionService: ConnectionService, private activatedRoute: ActivatedRoute,
-               private navCtrl: NavController, private metodosAuxiliaresS: MetodosAuxiliaresService,  private autService: AuthService) 
+               private navCtrl: NavController, private metodosAuxiliaresS: MetodosAuxiliaresService,  private autService: AuthService,
+               private loadingService: LoadingService) 
   {      
 
     this.activatedRoute.params.subscribe((params:any) => 
     {     
       this.productoId = params.id;                        
     });
-    
-      
-
+          
     this.activatedRoute.data.subscribe((data:any) => {  
 
       this.producto =  new Producto();
@@ -48,11 +48,7 @@ export class CrearProductoPage{
           response.precio =  response.precio.toString().trim()
           this.producto = response
   
-          this.validacionEstado(response.estado)
-      
-          // this.connectionService.getImagenProductoPorId(response.idProducto, 'Producto').subscribe((responseImage:any) =>{
-          //   this.imagenData = this.convertirBlobAURL(responseImage);
-          // });
+          this.validacionEstado(response.estado)      
 
           this.connectionService.getImagenProductoPorId(response.idProducto, 'Producto')
           .then(resultado => {
@@ -142,7 +138,7 @@ export class CrearProductoPage{
     this.esRepuestoAValidar = show;   
   }
   
-  guardarProducto(formularioValue: NgForm) 
+  async guardarProducto(formularioValue: NgForm) 
   {    
     if (formularioValue.invalid) {
       Object.values(formularioValue.controls).forEach((controles: any) => {
@@ -150,10 +146,10 @@ export class CrearProductoPage{
       });
 
       return;
-    }       
+    }        
+    const loading = await this.loadingService.crearCarga();
+    await loading.present();
 
-    // let peticion!: Observable<any>;  
-    
     if(this.productoId == 'nuevo')
     {  
       if(this.producto.tipoProducto === "R" && this.selectedOption === "vacio")
@@ -214,12 +210,16 @@ export class CrearProductoPage{
           formImagen.append('Estado', 'HABILITADO');                  
         } 
       });
-this.connectionService.postCrearProducto(formImagen).subscribe((response:any) =>{     
-      this.metodosAuxiliaresS.alertaInformativa( this.producto.nombre + ' Se genero correctamente');
-      this.navCtrl.navigateForward('/tab/mi-cuenta');  
+
+
+      this.connectionService.postCrearProducto(formImagen).subscribe((response:any) =>
+      {     
+        this.metodosAuxiliaresS.alertaInformativa( this.producto.nombre + ' Se genero correctamente');
+        this.navCtrl.navigateForward('/tab/mi-cuenta'); 
+        loading.dismiss();  
       },
       (error:any) =>{
-  
+        loading.dismiss(); 
         this.metodosAuxiliaresS.alertaError('Error al crear el producto', error.message.toString());
       });
     }
@@ -248,10 +248,11 @@ this.connectionService.postCrearProducto(formImagen).subscribe((response:any) =>
 
         setTimeout(() => {
           this.navCtrl.navigateForward('/tab/mi-cuenta');  
-        }, 1700);          
+        }, 1700);      
+        loading.dismiss();    
       },
       (error:any) =>{
-  
+        loading.dismiss();
         this.metodosAuxiliaresS.alertaError('Error al editar el producto', error.message.toString());
       });    
     }         

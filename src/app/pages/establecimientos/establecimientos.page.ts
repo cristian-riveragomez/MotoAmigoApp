@@ -62,6 +62,11 @@ export class EstablecimientosPage implements OnInit {
 
   agregarMarcadorMiUbicacion()
   {
+    const iconoMarcador = {
+      url: 'https://maps.google.com/mapfiles/ms/micons/blue-dot.png',
+      scaledSize: new google.maps.Size(45, 45),
+    };
+
     const mar= new google.maps.Marker({
       position: {
         lat: this.latitude,
@@ -69,7 +74,7 @@ export class EstablecimientosPage implements OnInit {
       },
       map: this.map,
       title: 'Mi Ubicacion',
-      icon: 'http://maps.google.com/mapfiles/ms/icons/blue-dot.png'
+      icon: iconoMarcador
     });
     
     this.marcadores.push(mar);

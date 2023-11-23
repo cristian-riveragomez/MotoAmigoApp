@@ -8,6 +8,7 @@ import { HttpClient } from '@angular/common/http';
 export class ConnectionService {
 
   private dominio: string = 'https://www.motoamigoapi.somee.com'
+  //private dominio: string = 'https://localhost:7265'
   constructor(public http: HttpClient) 
   {
     

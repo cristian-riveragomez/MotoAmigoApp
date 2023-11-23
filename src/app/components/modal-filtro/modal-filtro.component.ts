@@ -18,7 +18,7 @@ export class ModalFiltroComponent  implements OnInit {
   ngOnInit() {}
 
   aplicarFiltros() {
-
+   
     this.modalController.dismiss({
      accesorioCheck: this.accesorio,
      repuestoCheck: this.repuesto,

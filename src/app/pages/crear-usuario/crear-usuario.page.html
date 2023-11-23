@@ -96,7 +96,10 @@
               [class.is-invalid] = "email.invalid && email.touched"  
               #email = "ngModel"
             />
-            <small *ngIf="email.invalid && email.touched" class="form-text text-danger"> El campo Email es obligatorio</small>
+            <small *ngIf="email.invalid && email.errors && email.touched" class="form-text text-danger">
+              <span *ngIf="email.errors['required']">El campo Email es obligatorio</span>
+              <span *ngIf="email.errors['pattern'] && !email.errors['required']">El formato del Email es incorrecto</span>
+            </small>
           </div>
         </div>
     

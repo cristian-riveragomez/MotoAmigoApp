@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { ConnectionService, Producto, Mail } from "../../../services/connection.service";
 import { MetodosAuxiliaresService } from '../../../services/metodosAuxiliares.service';
@@ -11,7 +11,8 @@ import { AuthService } from '../../../services/auth.service';
   templateUrl: './producto.page.html',
   styleUrls: ['./producto.page.scss'],
 })
-export class ProductoPage{
+export class ProductoPage implements OnInit
+{
   producto:Producto =  new Producto();
   tipoProducto: string;
   imagenData: any;
@@ -23,42 +24,55 @@ export class ProductoPage{
 
   constructor(private activatedRoute: ActivatedRoute, private connectionS: ConnectionService, 
               private metodosAuxiliaresS: MetodosAuxiliaresService, private navCtrl: NavController,
-              public alertController: AlertController, private autService: AuthService) 
+              public alertController: AlertController, private autService: AuthService, private loadingService: LoadingService) 
+  {       
+  }
+
+  async ngOnInit()
   {
-
-    this.activatedRoute.params.subscribe((params:any) => {
-      let productoId:string;
-      
-      this.parametroTipoProducto = params.tipo;
-      productoId = params.productoId;
-      
-      this.usuarioIdLogin = Number(this.autService.GetIdUsuarioLocalStorage());
-
-      this.connectionS.getProductoPorId(productoId).subscribe((response:any) =>{          
+    const loading = await this.loadingService.crearCarga();
+    try 
+    {      
+      await loading.present();
+  
+      this.activatedRoute.params.subscribe((params:any) => {
+        let productoId:string;
+        
+        this.parametroTipoProducto = params.tipo;
+        productoId = params.productoId;
+        
+        this.usuarioIdLogin = Number(this.autService.GetIdUsuarioLocalStorage());
+  
+        this.connectionS.getProductoPorId(productoId).subscribe((response:any) =>
+        {          
           this.producto = response;
-
+  
           this.validarTipoProducto(response.tipoProducto);
-          
-          // this.connectionS.getImagenProductoPorId(response.idProducto, 'Producto').subscribe((responseImage:any) =>{
-          //   this.imagenData = this.convertirBlobAURL(responseImage);
-          // });
-
-          this.connectionS.getImagenProductoPorId(response.idProducto, 'Producto')
-          .then(resultado => {
+            
+          this.connectionS.getImagenProductoPorId(response.idProducto, 'Producto').then(resultado => 
+          {
             this.imagenData = this.convertirBlobAURL(resultado);
-            });
-
+          });
+  
           this.connectionS.validarProductoDestacado(this.autService.GetIdUsuarioLocalStorage(), productoId).subscribe( (response: any)=>
           {
             this.productoDestacado = response;
           });
-          
+            
           this.connectionS.validarProductoDenunciado(this.autService.GetIdUsuarioLocalStorage(), productoId).subscribe( (response: any)=>
           {
             this.esProductoDenunciado = response;
           });
-      });
-    });        
+          
+          loading.dismiss();   
+        });
+      });          
+    } 
+    catch (error:any) 
+    {
+      this.metodosAuxiliaresS.alertaError('Error:', error.message.toString())
+      loading.dismiss();
+    }   
   }
 
   validarTipoProducto(tipoProd: string)

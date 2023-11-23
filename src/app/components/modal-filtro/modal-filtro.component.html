@@ -25,11 +25,35 @@
     <div class="ion-padding-vertical">
       <h3>Precio</h3>
       <ion-label >Precio mínimo:</ion-label>
-      <input type="text" maxlength="10" class="form-control" [(ngModel)]="precioMinimoInput">   
-      
+      <input 
+            type="text" 
+            maxlength="10" 
+            class="form-control" 
+            [(ngModel)]="precioMinimoInput"
+            id="precioMinimoInput"
+            name="precioMinimo"
+            pattern="[0-9]+"
+            #precioMinimo="ngModel"
+      >   
+      <small *ngIf="precioMinimo.errors && precioMinimo.errors['pattern']" class="form-text text-danger">
+        El valor ingresado no es un número
+      </small>
+
       <ion-label>Precio máximo:</ion-label>
-      <input type="text" maxlength="10" class="form-control" [(ngModel)]="precioMaximoInput">
+      <input 
+            type="text" 
+            maxlength="10"
+            class="form-control" 
+            [(ngModel)]="precioMaximoInput"
+            id="precioMaximoInput"
+            name="precioMaximo"
+            pattern="[0-9]+"
+            #precioMaximo="ngModel"
+      >
     </div>
+    <small *ngIf="precioMaximo.errors && precioMaximo.errors['pattern']" class="form-text text-danger">
+      El valor ingresado no es un número
+    </small>
     
     <div class="ion-padding ion-text-center">
       <ion-button (click)="aplicarFiltros()" class="ion-text-center">

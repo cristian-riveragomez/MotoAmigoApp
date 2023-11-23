@@ -4,6 +4,7 @@ import { NgForm } from '@angular/forms';
 import { NavController } from '@ionic/angular';
 import { AuthService } from '../../../services/auth.service';
 import { MetodosAuxiliaresService } from '../../../services/metodosAuxiliares.service';
+import { LoadingService } from '../../../services/loading.service';
 
 @Component({
   selector: 'app-login',
@@ -16,7 +17,7 @@ export class LoginPage  {
   inputType: string = 'password';
 
   constructor(private connectionService: ConnectionService, private navCtrl: NavController, private autService: AuthService
-              , private metodosAuxiliaresS: MetodosAuxiliaresService) 
+              , private metodosAuxiliaresS: MetodosAuxiliaresService, private loadingService: LoadingService) 
   { 
     this.usuarioLogin =  new UsuarioLogin(); 
   }
@@ -26,23 +27,25 @@ export class LoginPage  {
     this.inputType = this.inputType === 'password' ? 'text' : 'password';
   }
 
-  login(form: NgForm)
+  async login(form: NgForm)
   {      
     if(form.invalid)
     {
       return;
     }           
-        
-    this.connectionService.loginUsuario(this.usuarioLogin).subscribe( (response: any) => {    
-
+      
+    const loading = await this.loadingService.crearCarga();
+    await loading.present();
+    this.connectionService.loginUsuario(this.usuarioLogin).subscribe( (response: any) => 
+    {    
+      
       this.autService.guardarIdEnLocalStorage(response.id);
       this.autService.validarSiEsAdmin(response);
-
-    this.navCtrl.navigateForward('/tab/home');   
       
+      loading.dismiss(); 
+      this.navCtrl.navigateForward('/tab/home');         
     },
     (error:any)=>{
-      //this.metodosAuxiliaresS.alertaError('Error al autenticar:',error.error.toString());
       this.metodosAuxiliaresS.alertaError('Error al autenticaras:',error.message.toString());
       console.log(error)
     });
