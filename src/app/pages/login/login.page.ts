@@ -46,8 +46,8 @@ export class LoginPage  {
       this.navCtrl.navigateForward('/tab/home');         
     },
     (error:any)=>{
-      this.metodosAuxiliaresS.alertaError('Error al autenticaras:',error.message.toString());
-      console.log(error)
+      loading.dismiss(); 
+      this.metodosAuxiliaresS.alertaError('Error al autenticars:',error.message.toString());
     });
   }
 
