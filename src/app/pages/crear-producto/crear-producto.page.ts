@@ -26,7 +26,7 @@ export class CrearProductoPage{
   selectedOption: string = 'vacio';
   archivosRepuestos: any = [];
   previsualizacionRepuestoNuevo!: string;  
-  radioGruopValue!: boolean;
+  submitted: boolean = false;
   
   constructor(private sanitizer: DomSanitizer, private connectionService: ConnectionService, private activatedRoute: ActivatedRoute,
                private navCtrl: NavController, private metodosAuxiliaresS: MetodosAuxiliaresService,  private autService: AuthService,
@@ -58,6 +58,8 @@ export class CrearProductoPage{
       }
       else
       {
+        this.submitted = false;
+
         this.previsualizacion = '';      
         this.previsualizacionRepuestoNuevo = '';
         this.selectedOption = 'vacio';
@@ -139,7 +141,9 @@ export class CrearProductoPage{
   }
   
   async guardarProducto(formularioValue: NgForm) 
-  {    
+  { 
+    this.submitted = true;   
+
     if (formularioValue.invalid) {
       Object.values(formularioValue.controls).forEach((controles: any) => {
         controles.markAsTouched();

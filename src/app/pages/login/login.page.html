@@ -18,7 +18,7 @@
                     </div>              
                     
                     <div class="form-outline mb-4">
-                      <small *ngIf="form.submitted && form.controls['email'].errors" class="form-text text-danger">
+                      <small *ngIf="submitted && form.controls['email'].invalid && form.controls['email'].touched" class="form-text text-danger">
                         El campo Email es obligatorio
                       </small>
                       <ion-input
@@ -35,7 +35,7 @@
                     </div>
       
                     <div class="form-outline mb-4">
-                      <small *ngIf="form.submitted && form.controls['contrasena'].errors" class="form-text text-danger">
+                      <small *ngIf="submitted && form.controls['contrasena'].invalid && form.controls['contrasena'].touched" class="form-text text-danger">
                         El campo Constraseña es obligatorio
                       </small>
                       <ion-input                       

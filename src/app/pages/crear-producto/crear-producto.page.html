@@ -28,7 +28,7 @@
             [(ngModel)] = "producto.nombre"
             #nombre ="ngModel"
           />
-          <small  *ngIf="nombre.invalid && nombre.touched" class="form-text text-danger">
+          <small *ngIf="submitted && nombre.invalid && nombre.touched" class="form-text text-danger">
             El campo Nombre es obligatorio
           </small>
         </div>
@@ -61,7 +61,7 @@
             maxlength="10"
             pattern="[0-9]+"
           />
-          <small *ngIf="precio.invalid && precio.errors && precio.touched" class="form-text text-danger">
+          <small *ngIf="submitted && precio.invalid && precio.errors && precio.touched" class="form-text text-danger">
             <span *ngIf="precio.errors['required']">El campo precio es obligatorio</span>
             <span *ngIf="precio.errors['pattern'] && !precio.errors['required']">El formato del precio es incorrecto</span>
           </small>
@@ -81,7 +81,7 @@
             #marca="ngModel"
             maxlength="30"
           />
-          <small *ngIf="marca.invalid && precio.touched" class="form-text text-danger">
+          <small *ngIf="submitted && marca.invalid && precio.touched" class="form-text text-danger">
             El campo Marca es obligatorio
           </small>
         </div>
@@ -99,7 +99,7 @@
             [(ngModel)]="producto.modelo"            
             #modelo="ngModel"
           />
-          <small *ngIf="modelo.invalid && precio.touched" class="form-text text-danger">
+          <small *ngIf="submitted && modelo.invalid && precio.touched" class="form-text text-danger">
             El campo Modelo es obligatorio
           </small>
         </div>

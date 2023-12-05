@@ -5,6 +5,7 @@ import { NavController } from '@ionic/angular';
 import { AuthService } from '../../../services/auth.service';
 import { MetodosAuxiliaresService } from '../../../services/metodosAuxiliares.service';
 import { LoadingService } from '../../../services/loading.service';
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-login',
@@ -15,11 +16,17 @@ export class LoginPage  {
   
   usuarioLogin: UsuarioLogin =  new UsuarioLogin();
   inputType: string = 'password';
+  submitted: boolean = false;
 
   constructor(private connectionService: ConnectionService, private navCtrl: NavController, private autService: AuthService
-              , private metodosAuxiliaresS: MetodosAuxiliaresService, private loadingService: LoadingService) 
+              , private metodosAuxiliaresS: MetodosAuxiliaresService, private loadingService: LoadingService, activatedRoute: ActivatedRoute) 
   { 
-    this.usuarioLogin =  new UsuarioLogin(); 
+
+
+    activatedRoute.data.subscribe((data:any) => {  
+      this.submitted = false;
+      this.usuarioLogin =  new UsuarioLogin();   
+    });
   }
   
   togglePasswordVisibility() 
@@ -29,11 +36,12 @@ export class LoginPage  {
 
   async login(form: NgForm)
   {      
+    this.submitted = true;
+
     if(form.invalid)
     {
       return;
     }           
-      
     const loading = await this.loadingService.crearCarga();
     await loading.present();
     this.connectionService.loginUsuario(this.usuarioLogin).subscribe( (response: any) => 
@@ -47,7 +55,7 @@ export class LoginPage  {
     },
     (error:any)=>{
       loading.dismiss(); 
-      this.metodosAuxiliaresS.alertaError('Error al autenticars:',error.message.toString());
+      this.metodosAuxiliaresS.alertaError('Error al autenticar:',error.message.toString());
     });
   }
 
