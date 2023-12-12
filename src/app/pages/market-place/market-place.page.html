@@ -21,17 +21,19 @@
         <h1 class="alert-heading">No hay registros </h1>
         <p><i class="fa fa-exclamation fa-5x"></i></p>
     </div>
-    <ion-card *ngFor="let producto of productos" (click)="openProductDetail(producto.idProducto)">
-        <img [src]="producto.imagenContenido">
-        <ion-card-content class="ion-text-center ion-card-content-color">
+    <ion-card *ngFor="let producto of productos" (click)="openProductDetail(producto.idProducto)">      
+      <div class="image-container">
+        <ion-img [src]="producto.imagenContenido" class="full-image"></ion-img>
+      </div>
+      <ion-card-content class="ion-text-center ion-card-content-color">
           <ion-card-title class="precio">
               {{producto.nombre}}
           </ion-card-title>
           <h1 class="precio">
               ${{producto.precio}}
           </h1>
-        </ion-card-content>
-      </ion-card> 
+      </ion-card-content>
+    </ion-card> 
 
     <ion-infinite-scroll threshold="100px" (ionInfinite)="loadData($event)">
       <ion-infinite-scroll-content></ion-infinite-scroll-content>

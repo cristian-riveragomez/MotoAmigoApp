@@ -53,7 +53,7 @@ export class ClimaPage implements OnInit {
     } 
     catch (error:any) 
     {
-      this.metodosAuxiliaresS.alertaError('Error:', error.message.toString())
+      this.metodosAuxiliaresS.alertaError('Error:', error.error.toString())
       loading.dismiss();
     }
   }

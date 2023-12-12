@@ -55,7 +55,7 @@ export class LoginPage  {
     },
     (error:any)=>{
       loading.dismiss(); 
-      this.metodosAuxiliaresS.alertaError('Error al autenticar:',error.message.toString());
+      this.metodosAuxiliaresS.alertaError('Error al autenticar:',error.error.toString());
     });
   }
 

@@ -44,14 +44,7 @@ export class CrearUsuarioPage {
         }, 1700);           
     },
     (error:any) =>{
-      if(error.error.toString() === 'Error: usuario duplicado. El nombre de usuario o email ya estan registrado en el sistema')
-      {
-        this.metodosAuxiliaresS.alertaError('Error:', error.error.toString());
-      }
-      else
-      {
-        this.metodosAuxiliaresS.alertaError('Error:', 'Error al crear el usuario');
-      }      
+      this.metodosAuxiliaresS.alertaError('Error al crear el usuario:', error.error.toString());        
     });
   }
 

@@ -6,6 +6,20 @@
 
 .ion-card-content-color
 {
-    //background-color:rgb(231, 121, 10);
     background-color: rgb(50, 104, 206);
 }
+
+.image-container {
+    height: 350px; 
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden; 
+  }
+  
+  .full-image {
+    width: auto;
+    height: 100%;
+    object-fit: contain; 
+    object-position: center; 
+  }
